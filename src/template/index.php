@@ -3,7 +3,9 @@
  * @var string $lang
  */
 
-use function Framework\Http\{url_path, url_for};
+use function Framework\Http\{url_path, url_for, url};
+
+$url = url();
 
 ?>
 <!DOCTYPE html>
@@ -18,5 +20,7 @@ use function Framework\Http\{url_path, url_for};
 </head>
 <body>
 <p><?= url_for('archive', year: '2025', month: '05', day: '25') ?></p>
+<p><?= $url->scheme() . '://' . $url->host() . $url->path() . $url->query() ?></p>
+<p>query: <?= $url->query() ?></p>
 </body>
 </html>

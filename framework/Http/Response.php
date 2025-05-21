@@ -17,6 +17,11 @@ function url_for(string ...$args): string
     return Http::build($args) ?? '';
 }
 
+function url(): Url
+{
+    return new Url;
+}
+
 class Response
 {
     private null|string $encoding = null;
