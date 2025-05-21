@@ -6,17 +6,18 @@ use stdClass;
 
 function template(): string
 {
-    extract(Http::$env->extract);
+    extract(Http::$buffer->extract);
 
     ob_start();
 
-    require Http::$env->filename;
+    require Http::$buffer->filename;
 
     return ob_get_clean();
 }
 
 class Http extends Routing\Mapper
 {
+    public static object $buffer;
     public static stdClass $env;
 
     private function status(int $code): void
@@ -155,10 +156,11 @@ class Http extends Routing\Mapper
 
     public static function buffer(string $filename, array|null $context): void
     {
-        self::$env->filename = $filename;
-
         $lang = ['lang' => self::$env->lang];
 
-        self::$env->extract = is_null($context) ? $lang : array_merge($lang, $context);
+        self::$buffer = (object)[
+            'filename' => $filename,
+            'extract' => is_null($context) ? $lang : array_merge($lang, $context),
+        ];
     }
 }
